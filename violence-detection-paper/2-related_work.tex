@@ -1,0 +1,22 @@
+\section{Related work}
+    \label{sec:relatedwork}
+    \subsection{Traditional Methods}
+    
+    Violence can be detected by traditional methods using hand-crafted feature extraction algorithms and using classical machine learning algorithms such as KNN, AVM, and Adaboost as a classifier. 
+    As done by, Harris corner detector~\cite{chen2008recognition}, improved dense trajectory (iDT)~\cite{wang2013action_9}, motion scale-invariant feature transform (MoSIFT)~\cite{xu2014violent_22}, space-time interest points (STIP)~\cite{de2010violence_7}.
+    
+    Hassner et al.~\cite{hassner2012violent_6} used optical flow magnitude series to detect violence in videos. The features are called violent flow (ViF) descriptors.
+    Later, their method was improved by introducing the orientation in the violent flow (ViF) descriptors~\cite{gao2016violence_23}.
+    Improved dense trajectory features iDT~\cite{wang2013action_9} remarkably improved the accuracy of human action recognition. 
+    This method along with the fisher encoding method extracts significant spatio-temporal features from violent videos~\cite{bilinski2016human_24}.
+    
+    \subsection{Deep Learning Based Methods}
+    Recently, deep learning-based methods gained much interest due to their improved accuracy and better performance than traditional methods. 
+    Convolutional neural network (CNN)~\cite{lecun1995convolutional}, 3D convolutional network~\cite{ji_3dconv},  and long short term memory (LSTM) network~\cite{10.1162/neco.1997.9.8.1735} are widely used architecture for the purpose of video understanding~\cite{11convlstm_donahue2015long, c3dtran2015learning, i3dcarreira2017quo}.
+    Different deep learning-based approaches have also been used in violence detection~\cite{26_zhou2017violent, 29_sudhakaran2017learning}. 
+    	
+	Three input streams, RGB frames, optical flow, and accelerated flow maps, were used as input for violence detection~\cite{28_dong2016multi}.
+	They used LSTM network to filter out features from the input streams. 
+	Using their individual benefits, CNN and LSTM are used together in violent detection~\cite{30_shi2015convolutional,29_sudhakaran2017learning}. 
+	The spatial features are extracted by the convolution layers and the mapping of temporal frames was done by LSTM layers.
+	FightNet~\cite{26_zhou2017violent} used features from multiple streams, such as RGB frames, optical flow, and acceleration images, and fused them for violence detection. In~\cite{cheng2019rwf}, Flow-Gate network was proposed which used fusion of RGB frames and optical flow.

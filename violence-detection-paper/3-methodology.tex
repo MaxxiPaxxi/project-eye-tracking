@@ -1,0 +1,88 @@
+\section{The Proposed 2s-MDCN}
+    \label{mdcn}
+    
+    \begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.9\linewidth]{new_images/mdcn_block.pdf}
+	\caption{A single multi-dimensional convolutional block.}
+	\label{fig:mdcn_block}
+	\end{figure}
+    
+    In this section, we discuss the architecture of our model in detail. 
+    Figure~\ref{fig:pipeline} shows the overall pipeline of our model. 
+    Raw RGB frames captured from cameras and optical flow are used as input to the model.
+    %add a line here about the first block
+    First, the input is passed through a 3D convolutional layer which performs a 3D convolution operation and reduces the size of spatial dimension to prepare for the multi-dimensional convolutional (MDC) blocks.
+    Two separate branches are used for RGB frames and optical flow, which are concatenated after the feature extraction from both branches.
+%    kernel size  $ {5}\times{7}\times{7} $. 
+%    Spatial dimesion was reduced by using a stride of size $ {}\times{}\times{} $
+    Each block in the model extracts spatial and temporal features independently from each other and detects violence.
+    
+    % 	% 	%		%		%		% 	% 	%		%		%		%
+
+%  Block image   %
+
+% 	% 	%		%		%		% 	% 	%		%		%		%		
+    
+    \subsection{Multi-dimensional Convolutional (MDC) Block}
+	The input to each one of the blocks is of shape $ {C}\times{D}\times{H}\times{W} $, where ${C}$ is the number of channels, ${D}$ represents the frame numbers, ${H}$ and ${W}$ denotes height and width respectively. 
+	The values in $ {H}\times{W} $ contain spatial information of a particular frame while $ {D} $ frames contain temporal information for the corresponding pixel.
+	As figure ~\ref{fig:mdcn_block} illustrates, each block of our proposed model contains three main convolutional layers for extracting spatial and temporal features.
+    
+    \textbf{ 1D convolutional layer:} The first module is 1D convolutional layer which extracts temporal features from the input.
+    The kernel size of this convolutional layer is $ {{k}_{t}}\times{1}\times{1} $. 
+    So that it performs convolution operation on a particular pixel over $ {{k}_{t}} $ frames and extracts only temporal information of the corresponding pixel.
+    
+    \textbf{ 2D convolutional layer:} The second module is 2D convolutional layer which extracts temporal features from the input.
+    The kernel size of this convolutional layer is $ {1}\times{{k}_{s}}\times{{k}_{s}} $. 
+    So that it performs convolution operation on a single frame and extracts only spatial information from the particular frame.
+    
+   \textbf{ 3D convolutional layer:} The second module is 3D convolutional layer which extracts both spatial and temporal features from the input.
+    The kernel size of this convolutional layer is $ {{k}_{t}}\times{{k}_{s}}\times{{k}_{s}} $. 
+    So that it performs convolution operation over ${{k}_{t}}$ frames and extracts temporal and spatial frames together.
+    
+    Each of these three modules is followed by a batch normalization layer.
+    In our model, we used $ 3 $ the value of $ {{k}_{t}} $ and $ {{k}_{s}} $.
+    They extract information independently from the same spatio-teporal position of  the input and fuse together.
+    In this process, our model can extract all the information from the input which reduces information loss and improves accuracy.
+    Then, the 
+%    three modules are followed by a 
+	fused features are passed through a 
+    $maxpooling$ layer and a $ {1}\times{1}\times{1} $ convolution layer which reduces the number of channels for the next layer.
+    This reduction module keeps our model size small.
+    Moreover, a concatenated skip connection~\cite{huang2017densely}, followed by a ReLU layer, is added to stabilize the model which also helped to improve accuracy.
+    Skip connection concatenates features from the previous layers to the current layer which allows more information to be obtained from the previous layers and reduces loss of information. Concatenated skip connections also help the gradient to propagate better and fix the vanishing gradient problem.
+    To match the input channel to the output channel, we have used a convolutional layer of kernel size ${1}\times{1}\times{1}$ and stride of size ${1}\times{2}\times{2}$.
+
+	% 	% 	%		%		%		% 	% 	%		%		%		%
+
+%  Full-network image   %
+
+% 	% 	%		%		%		% 	% 	%		%		%		%		
+	
+	
+	\begin{figure}[!htb]
+	\centering
+	\includegraphics[width=0.9\linewidth]{new_images/vio_fullnet_pdf.pdf}
+	\caption{Layers of 2s-MDCN.}
+	\label{fig:full_network}
+	\end{figure}      
+    
+    \input{tables/network_table}
+    
+    \subsection{Multi-dimensional Convolutional Network}
+   As figure ~\ref{fig:full_network} illustrates, our proposed network consists of $ 4 $ MDC blocks and a 3D convolutional layer at the beginning. 
+   Both RGB and optical flow streams have identical numbers of MDC blocks.
+   The first 3D convolutional layer is of kernel size $ {5}\times{7}\times{7} $ and stride of size $ {1}\times{2}\times{2} $.
+   This layer is followed by a $ maxpool $ layer with stride value of $ {1}\times{2}\times{2} $.
+   The convolution layer and $maxpool$ layer are used to reduce the size of spatial dimension.
+   The output from these layers is passed into the $ 4 $ MDC blocks, where temporal and spatial information are extracted.
+   The numbers of channels of output from the convolution blocks are $8$, $16$, $32$, $64$, and $128$.
+   After extracting features from RGB and optical flow stream, they are concatenated and a $global$ $average$ $pooling$ layer is used to combine and reduce the extracted feature and finally, a fully connected (FC) and $softmax$ layer is used to detect violence.
+   Table~\ref{tab:network_table} displays the kernel size, stride size, and number output channel of each block in detail.
+   The shape of convolutional kernel is denoted by $ {T}\times{S}^2 $, where $T$ kernel temporal dimension and $S$ indicated spatial dimension. Stride is also represented in the same manner (temporal stride, spatial stride$^2$). The output size is represented by channel$\times$temporal length$\times$spatial dimension$^2$. The features are passed into $conv$ $layers$ independently and then concatenated and passed into $fuse$ $and$ $reduce$ layer.
+   
+   
+   	
+	
+ 

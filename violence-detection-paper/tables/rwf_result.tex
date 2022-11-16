@@ -1,0 +1,25 @@
+\begin{table*}[htb]
+    \begin{center}
+		\begin{tabular}{lccc}
+			\hline
+			Methods	                     &\# Params (M)              & Complexity (GFLOPS)                & Accuracy($\%$)		\\
+			\hline
+            R(2+1)D~\cite{r21dtran2018closer}          					& 33.20 									& 42.42 							  						& 81.25								\\
+			C3D~\cite{c3dtran2015learning} 									& 79.90 									& 38.62							   						& 82.75								\\
+			ConvLSTM~\cite{29_sudhakaran2017learning} 						& -                                      	& -															& 77.00					\\
+			I3D (RGB)~\cite{i3dcarreira2017quo}							& 12.30										& 111.30 													&	85.75						\\
+           I3D 	(flow)~\cite{i3dcarreira2017quo}								& 12.30										& 102.52 												&	75.50						\\
+           I3D (two-stream)~\cite{i3dcarreira2017quo}	 				& 24.40									& 213.85 												&	81.50						\\
+           FlowGate (RGB)~\cite{cheng2019rwf}				& 0.25									& 8.76													& 84.50								\\
+           FlowGate (flow)~\cite{cheng2019rwf}				& 0.25									& 8.29													&	75.50							\\
+           FlowGate (fusion)~\cite{cheng2019rwf}			 	& 0.27										& 16.98													& 87.25								\\
+            \hline
+			\textbf{2s-MDCN (flow only)}					& \textbf{0.47}						& \textbf{4.47}								 		& \textbf{80.50}							\\
+			\textbf{2s-MDCN (RGB only)}						& \textbf{0.47}						& \textbf{4.47}								 		& \textbf{87.50}							\\
+			\textbf{2s-MDCN (fusion)}						& \textbf{0.94}						& \textbf{8.16}								 		& \textbf{89.70}							\\
+			\hline
+		\end{tabular}		
+    \end{center}
+	\caption{Comparison of our model with other state-of-the-art methods on RWF-2000 violence dataset.}
+    \label{tab:rwf-2000}
+	\end{table*}
