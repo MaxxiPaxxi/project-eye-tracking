@@ -1,4 +1,4 @@
-# Computer-Vision-Project
+# Tracking the stare of the eye
 This is the repository for the end-of-term Project of the course, INF573 - Image Analysis and Computer Vision.
 
 The aim of this project is to create a simple program that detect your eyes and estimate your gaze direction to blur the screen in case you look away.
